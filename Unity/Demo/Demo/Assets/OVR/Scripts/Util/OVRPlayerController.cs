@@ -94,6 +94,10 @@ public class OVRPlayerController : MonoBehaviour
 	private bool prevHatRight = false;
 	private float SimulationRate = 60f;
 
+	//[acman specific variable
+	private int score = 0;
+	public int pelletsRemaining;
+
 	void Awake()
 	{
 		Controller = gameObject.GetComponent<CharacterController>();
@@ -138,10 +142,15 @@ public class OVRPlayerController : MonoBehaviour
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.tag == "Teleporter") {
 			if (transform.localPosition.x < -13) {
-				transform.Translate(Vector3.right*26, Space.World);
+				transform.Translate (Vector3.right * 26, Space.World);
 			} else {
-				transform.Translate(Vector3.left*26, Space.World);
+				transform.Translate (Vector3.left * 26, Space.World);
 			}
+		} else if (other.gameObject.tag == "Pellet") {
+			other.gameObject.SetActive(false);
+			score += 100;
+			pelletsRemaining--;
+			print (score);
 		}
 	}
 
