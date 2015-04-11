@@ -99,7 +99,8 @@ public class OVRPlayerController : MonoBehaviour
 	//pacman specific variable
 	private int score = 0;
 	private int lives = 3;
-	public int pelletsRemaining;
+	public int totalNumberPellets = 179;
+	public int pelletsRemaining = 179;
 	private int timer = 0;
 	private int tStamp = 0;
 	private bool isSuper = false;
@@ -163,28 +164,38 @@ public class OVRPlayerController : MonoBehaviour
 			other.gameObject.SetActive (false);
 			score += 100;
 			pelletsRemaining--;
-			setScoreText ();
+			updateDisplayText ();
 		} else if (other.gameObject.tag == "Power Pellet") {
 			GetComponent<AudioSource>().PlayOneShot(waka);
 			other.gameObject.SetActive(false);
 			score += 500;
 			tStamp = timer;
 			pelletsRemaining--;
-			setScoreText ();
+			updateDisplayText ();
 			isSuper = true;
 		} else if (other.gameObject.tag == "Cherry") {
 			other.gameObject.SetActive (false);
 			GetComponent<AudioSource> ().PlayOneShot (cherry);
 			score += 1000;
-			setScoreText ();
+			updateDisplayText ();
 		} else if (other.gameObject.tag == "Ghost") {
 			lives--;
 			resetPositions ();
 			if (lives == 0) {
 				// TODO: print out game over message. Reset to beginning state
+				score = 0;
 				lives = 3;
 				resetPositions ();
+				//reset all pellets
+				pelletsRemaining = totalNumberPellets;
+				foreach (Transform child in GameObject.Find ("Pellets").transform) {
+					child.gameObject.SetActive(true);
+				}
+				foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
+					child.gameObject.SetActive(true);
+				}
 			}
+			updateDisplayText ();
 		}
 	}
 
@@ -209,8 +220,10 @@ public class OVRPlayerController : MonoBehaviour
 			.position = new Vector3(2.48f, 0.8f, 2.44f);
 	}
 
-	void setScoreText() {
+	void updateDisplayText() {
 		GameObject.Find ("OVRCameraRig").GetComponent<HUD> ().setScore (score.ToString());
+		GameObject.Find ("OVRCameraRig").GetComponent<HUD> ().setRemainingPellets(pelletsRemaining.ToString());
+		GameObject.Find ("OVRCameraRig").GetComponent<HUD> ().setRemainingLives(lives.ToString());
 	}
 
 	protected virtual void Update()
