@@ -6,15 +6,21 @@ public class PlayerController : MonoBehaviour {
 	public int speedMultiplier;
 	public Vector3 eulerAngleVelocity;
 
+	private Quaternion cameraRotation;
 	private Rigidbody rb;
+	private OVRCameraRig camera;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
+		camera = GetComponent<OVRCameraRig> ();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		//cameraRotation = camera.rightEyeAnchor.transform.localRotation;
+		//transform.rotation = cameraRotation;
+
 		if (Input.GetKey("w")) {
 			rb.MovePosition(transform.position + transform.up * speedMultiplier * Time.deltaTime);
 		} else if (Input.GetKey("s")) {

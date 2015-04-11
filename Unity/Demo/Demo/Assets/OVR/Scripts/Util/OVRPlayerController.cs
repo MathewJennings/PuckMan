@@ -280,6 +280,9 @@ public class OVRPlayerController : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.E))
 			euler.y += RotationRatchet;
 
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			OVRManager.display.RecenterPose ();
+		}
 		float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
 
 		if (!SkipMouseRotation)
@@ -320,6 +323,7 @@ public class OVRPlayerController : MonoBehaviour
 	{
 		Transform root = CameraRig.trackingSpace;
 		Transform centerEye = CameraRig.centerEyeAnchor;
+
 
 		if (HmdRotatesY)
 		{
