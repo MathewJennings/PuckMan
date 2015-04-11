@@ -191,23 +191,24 @@ public class OVRPlayerController : MonoBehaviour
 				} else {
 					score += 16000;
 				}
-				setScoreText ();
 			} else {
 				lives--;
 				resetPositions ();
-if (lives == 0) {
-				// TODO: print out game over message. Reset to beginning state
-				score = 0;
-				lives = 3;
-				resetPositions ();
-				//reset all pellets
-				pelletsRemaining = totalNumberPellets;
-				foreach (Transform child in GameObject.Find ("Pellets").transform) {
-					child.gameObject.SetActive(true);
+				if (lives == 0) {
+					// TODO: print out game over message. Reset to beginning state
+					score = 0;
+					lives = 3;
+					resetPositions ();
+					//reset all pellets
+					pelletsRemaining = totalNumberPellets;
+					foreach (Transform child in GameObject.Find ("Pellets").transform) {
+						child.gameObject.SetActive(true);
+					}
+					foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
+						child.gameObject.SetActive(true);
+					}			
 				}
-				foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
-					child.gameObject.SetActive(true);
-				}			}
+			}
 			updateDisplayText ();
 		}
 	}
