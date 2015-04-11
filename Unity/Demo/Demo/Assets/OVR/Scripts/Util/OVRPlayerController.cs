@@ -135,6 +135,16 @@ public class OVRPlayerController : MonoBehaviour
 		}
 	}
 
+	void OnTriggerEnter(Collider other) {
+		if (other.gameObject.tag == "Teleporter") {
+			if (transform.localPosition.x < -13) {
+				transform.Translate(Vector3.right*26, Space.World);
+			} else {
+				transform.Translate(Vector3.left*26, Space.World);
+			}
+		}
+	}
+
 	protected virtual void Update()
 	{
 		if (useProfileData)
