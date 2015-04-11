@@ -22,6 +22,7 @@ limitations under the License.
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Collections;
 
 /// <summary>
 /// Controls the player's movement in virtual reality.
@@ -99,9 +100,10 @@ public class OVRPlayerController : MonoBehaviour
 	private int score = 0;
 	private int lives = 3;
 	public int pelletsRemaining;
+	private int timer = 0;
+	private int tStamp = 0;
 	private bool isSuper = false;
-	private int superKills = 0;
-	private float time = Time.realtimeSinceStartup;
+//	private int superKills = 0;
 	public bool getSuper() {
 		return isSuper;
 	}
@@ -166,7 +168,7 @@ public class OVRPlayerController : MonoBehaviour
 			GetComponent<AudioSource>().PlayOneShot(waka);
 			other.gameObject.SetActive(false);
 			score += 500;
-			time = Time.realtimeSinceStartup;
+			tStamp = timer;
 			pelletsRemaining--;
 			setScoreText ();
 			isSuper = true;
@@ -184,6 +186,14 @@ public class OVRPlayerController : MonoBehaviour
 				resetPositions ();
 			}
 		}
+	}
+
+	void Start() {
+		InvokeRepeating ("IncreaseTimer", 1.0F, 1.0F);
+	}
+
+	void IncreaseTimer() {
+		timer++;
 	}
 
 	void resetPositions() {
@@ -267,10 +277,9 @@ public class OVRPlayerController : MonoBehaviour
 		if (predictedXZ != actualXZ)
 			MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
 
-		float t = Time.realtimeSinceStartup;
-		if (t - time >= 12.0) {
+		if (timer - tStamp >= 12) {
 			isSuper = false;
-			superKills = 0;
+			// superKills = 0;
 		}
 	}
 

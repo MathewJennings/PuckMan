@@ -8,12 +8,10 @@ public class PlayerController : MonoBehaviour {
 
 	private Quaternion cameraRotation;
 	private Rigidbody rb;
-	private OVRCameraRig camera;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
-		camera = GetComponent<OVRCameraRig> ();
 	}
 	
 	// Update is called once per frame
