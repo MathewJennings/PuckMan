@@ -152,6 +152,11 @@ public class OVRPlayerController : MonoBehaviour
 			score += 100;
 			pelletsRemaining--;
 			setScoreText();
+		} else if (other.gameObject.tag == "Power Pellet") {
+			other.gameObject.SetActive(false);
+			score += 500;
+			pelletsRemaining--;
+			setScoreText();
 		} else if (other.gameObject.tag == "Cherry") {
 			other.gameObject.SetActive(false);
 			score += 1000;
