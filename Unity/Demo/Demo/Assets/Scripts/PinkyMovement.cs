@@ -25,8 +25,8 @@ public class PinkyMovement : MonoBehaviour {
 		transform.Translate (movement * speedMultiplier * Time.deltaTime);
 
 		if (horizontal != 0 && vertical != 0) {
-			transform.forward = Vector3.Normalize(
-				new Vector3(horizontal, vertical, 0.0f));
+			//transform.forward = Vector3.Normalize(
+			//	new Vector3(horizontal, vertical, 0.0f));
 
 			//Vector3 forward = new Vector3(Vector3.forward.x, Vector3.forward.y, Vector3.forward.z);
 			//transform.rotation = Quaternion.LookRotation (forward, Vector3.up);
