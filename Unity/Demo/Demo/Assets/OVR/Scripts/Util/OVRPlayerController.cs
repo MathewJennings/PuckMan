@@ -103,7 +103,7 @@ public class OVRPlayerController : MonoBehaviour
 	private int timer = 0;
 	private int tStamp = 0;
 	private bool isSuper = false;
-//	private int superKills = 0;
+	private int superKills = 0;
 	public bool getSuper() {
 		return isSuper;
 	}
@@ -178,12 +178,27 @@ public class OVRPlayerController : MonoBehaviour
 			score += 1000;
 			setScoreText ();
 		} else if (other.gameObject.tag == "Ghost") {
-			lives--;
-			resetPositions ();
-			if (lives == 0) {
-				// TODO: print out game over message. Reset to beginning state
-				lives = 3;
+			if(isSuper) {
+				other.gameObject.SetActive (false);
+				superKills++;
+				if(superKills == 1) {
+					score += 2000;
+				} else if (superKills == 2) {
+					score += 4000;
+				} else if (superKills == 3) {
+					score += 8000;
+				} else {
+					score += 16000;
+				}
+				setScoreText ();
+			} else {
+				lives--;
 				resetPositions ();
+				if (lives == 0) {
+					// TODO: print out game over message. Reset to beginning state
+					lives = 3;
+					resetPositions ();
+				}
 			}
 		}
 	}
@@ -279,7 +294,7 @@ public class OVRPlayerController : MonoBehaviour
 
 		if (timer - tStamp >= 12) {
 			isSuper = false;
-			// superKills = 0;
+			superKills = 0;
 		}
 	}
 
