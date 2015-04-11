@@ -103,6 +103,8 @@ public class OVRPlayerController : MonoBehaviour
 	public bool getSuper() {
 		return isSuper;
 	}
+	public AudioClip waka;
+	public AudioClip cherry;
 
 	void Awake()
 	{
@@ -153,6 +155,7 @@ public class OVRPlayerController : MonoBehaviour
 				transform.Translate (Vector3.left * 26, Space.World);
 			}
 		} else if (other.gameObject.tag == "Pellet") {
+			GetComponent<AudioSource>().PlayOneShot(waka);
 			other.gameObject.SetActive(false);
 			score += 100;
 			pelletsRemaining--;
@@ -165,6 +168,7 @@ public class OVRPlayerController : MonoBehaviour
 			isSuper = true;
 		} else if (other.gameObject.tag == "Cherry") {
 			other.gameObject.SetActive(false);
+			GetComponent<AudioSource>().PlayOneShot(cherry);
 			score += 1000;
 			setScoreText();
 		}
