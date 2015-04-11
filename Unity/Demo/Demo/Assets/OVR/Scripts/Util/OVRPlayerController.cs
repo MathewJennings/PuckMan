@@ -99,7 +99,6 @@ public class OVRPlayerController : MonoBehaviour
 	private int score = 0;
 	private int lives = 3;
 	public int pelletsRemaining;
-	public Text scoreText;
 	private bool isSuper = false;
 	private int superKills = 0;
 	private float time = Time.realtimeSinceStartup;
@@ -201,10 +200,7 @@ public class OVRPlayerController : MonoBehaviour
 	}
 
 	void setScoreText() {
-		scoreText.text = "Score: " + score.ToString ();
-		if (pelletsRemaining == 0) {
-			scoreText.text = "YOU WIN!";
-		}
+		GameObject.Find ("OVRCameraRig").GetComponent<HUD> ().setScore (score.ToString());
 	}
 
 	protected virtual void Update()
