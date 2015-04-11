@@ -16,6 +16,6 @@ public class HUD : VRGUI {
 	}
 
 	public void setScore(string score) {
-		this.score = score;
+		this.score = score; 
 	}
 }
