@@ -100,6 +100,8 @@ public class OVRPlayerController : MonoBehaviour
 	public int pelletsRemaining;
 	public Text scoreText;
 	private bool isSuper = false;
+	private int superKills = 0;
+	private float time = Time.realtimeSinceStartup;
 	public bool getSuper() {
 		return isSuper;
 	}
@@ -161,8 +163,10 @@ public class OVRPlayerController : MonoBehaviour
 			pelletsRemaining--;
 			setScoreText();
 		} else if (other.gameObject.tag == "Power Pellet") {
+			GetComponent<AudioSource>().PlayOneShot(waka);
 			other.gameObject.SetActive(false);
 			score += 500;
+			time = Time.realtimeSinceStartup;
 			pelletsRemaining--;
 			setScoreText();
 			isSuper = true;
@@ -244,6 +248,12 @@ public class OVRPlayerController : MonoBehaviour
 
 		if (predictedXZ != actualXZ)
 			MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
+
+		float t = Time.realtimeSinceStartup;
+		if (t - time >= 12.0) {
+			isSuper = false;
+			superKills = 0;
+		}
 	}
 
 	public virtual void UpdateMovement()
