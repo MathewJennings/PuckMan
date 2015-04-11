@@ -97,6 +97,7 @@ public class OVRPlayerController : MonoBehaviour
 
 	//pacman specific variable
 	private int score = 0;
+	private int lives = 3;
 	public int pelletsRemaining;
 	public Text scoreText;
 	private bool isSuper = false;
@@ -155,23 +156,44 @@ public class OVRPlayerController : MonoBehaviour
 				transform.Translate (Vector3.left * 26, Space.World);
 			}
 		} else if (other.gameObject.tag == "Pellet") {
-			GetComponent<AudioSource>().PlayOneShot(waka);
-			other.gameObject.SetActive(false);
+			GetComponent<AudioSource> ().PlayOneShot (waka);
+			other.gameObject.SetActive (false);
 			score += 100;
 			pelletsRemaining--;
-			setScoreText();
+			setScoreText ();
 		} else if (other.gameObject.tag == "Power Pellet") {
-			other.gameObject.SetActive(false);
+			other.gameObject.SetActive (false);
 			score += 500;
 			pelletsRemaining--;
-			setScoreText();
+			setScoreText ();
 			isSuper = true;
 		} else if (other.gameObject.tag == "Cherry") {
-			other.gameObject.SetActive(false);
-			GetComponent<AudioSource>().PlayOneShot(cherry);
+			other.gameObject.SetActive (false);
+			GetComponent<AudioSource> ().PlayOneShot (cherry);
 			score += 1000;
-			setScoreText();
+			setScoreText ();
+		} else if (other.gameObject.tag == "Ghost") {
+			lives--;
+			resetPositions ();
+			if (lives == 0) {
+				// TODO: print out game over message. Reset to beginning state
+				lives = 3;
+				resetPositions ();
+			}
 		}
+	}
+
+	void resetPositions() {
+		transform.position = new Vector3(0.38f, 0.8f, -6.26f);
+		transform.rotation = Quaternion.Euler(0,90,0);
+		GameObject.Find ("Blinky").GetComponent<Transform>()
+			.position = new Vector3(-1.82f, 0.8f, 3.44f);
+		GameObject.Find ("Pinky").GetComponent<Transform>()
+			.position = new Vector3(-0.22f, 0.8f, 2.44f);
+		GameObject.Find ("Inky").GetComponent<Transform>()
+			.position = new Vector3(0.88f, 0.8f, 3.44f);
+		GameObject.Find ("Clyde").GetComponent<Transform>()
+			.position = new Vector3(2.48f, 0.8f, 2.44f);
 	}
 
 	void setScoreText() {
