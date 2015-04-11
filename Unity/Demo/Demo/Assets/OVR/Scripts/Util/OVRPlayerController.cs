@@ -21,6 +21,7 @@ limitations under the License.
 
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 /// <summary>
 /// Controls the player's movement in virtual reality.
@@ -94,10 +95,10 @@ public class OVRPlayerController : MonoBehaviour
 	private bool prevHatRight = false;
 	private float SimulationRate = 60f;
 
-	//[acman specific variable
+	//pacman specific variable
 	private int score = 0;
 	public int pelletsRemaining;
-
+	public Text scoreText;
 	void Awake()
 	{
 		Controller = gameObject.GetComponent<CharacterController>();
@@ -150,7 +151,18 @@ public class OVRPlayerController : MonoBehaviour
 			other.gameObject.SetActive(false);
 			score += 100;
 			pelletsRemaining--;
-			print (score);
+			setScoreText();
+		} else if (other.gameObject.tag == "Cherry") {
+			other.gameObject.SetActive(false);
+			score += 1000;
+			setScoreText();
+		}
+	}
+
+	void setScoreText() {
+		scoreText.text = "Score: " + score.ToString ();
+		if (pelletsRemaining == 0) {
+			scoreText.text = "YOU WIN!";
 		}
 	}
 
