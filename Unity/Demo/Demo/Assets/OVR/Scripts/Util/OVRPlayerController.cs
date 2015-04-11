@@ -99,6 +99,11 @@ public class OVRPlayerController : MonoBehaviour
 	private int score = 0;
 	public int pelletsRemaining;
 	public Text scoreText;
+	private bool isSuper = false;
+	public bool getSuper() {
+		return isSuper;
+	}
+
 	void Awake()
 	{
 		Controller = gameObject.GetComponent<CharacterController>();
@@ -157,6 +162,7 @@ public class OVRPlayerController : MonoBehaviour
 			score += 500;
 			pelletsRemaining--;
 			setScoreText();
+			isSuper = true;
 		} else if (other.gameObject.tag == "Cherry") {
 			other.gameObject.SetActive(false);
 			score += 1000;
