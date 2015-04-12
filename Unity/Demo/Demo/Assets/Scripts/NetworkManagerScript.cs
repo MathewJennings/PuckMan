@@ -9,6 +9,10 @@ public class NetworkManagerScript : MonoBehaviour {
 	private HostData[] hostList;
 	
 	public GameObject pacman;
+	public GameObject blinky;
+	public GameObject pinky;
+	public GameObject inky;
+	public GameObject clyde;
 	
 	private void StartServer()
 	{
@@ -62,7 +66,6 @@ public class NetworkManagerScript : MonoBehaviour {
 	{
 		DoTheDance ();
 		GameObject obj = GameObject.FindWithTag ("Pac Cam");
-		print (obj == null);
 		obj.SetActive (false);
 		GameObject.Find ("Camera").SetActive (true);
 		//obj.transform.Find ("OVRCameraRig").gameObject.SetActive (false);
@@ -78,7 +81,14 @@ public class NetworkManagerScript : MonoBehaviour {
 	
 	private void SpawnPlayer()
 	{
-		Network.Instantiate(pacman, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+		Network.Instantiate(pacman, new Vector3(.38f, .8f, -6.26f), Quaternion.identity, 0);
+		Quaternion q = Quaternion.identity;
+		q.eulerAngles = new Vector3(90,0,0);
+		Network.Instantiate(blinky, new Vector3(-1.82f, .8f, 3.44f), q, 0);
+		Network.Instantiate(pinky, new Vector3(-.22f, .8f, 2.44f), q, 0);
+		Network.Instantiate(inky, new Vector3(.88f, .8f, 3.44f), q, 0);
+		Network.Instantiate(clyde, new Vector3(2.48f, .8f, 2.44f), q, 0);
 
+		
 	}
 }

@@ -238,6 +238,24 @@ public class OVRPlayerController : MonoBehaviour
 	void resetPositions() {
 		transform.position = new Vector3(0.38f, 0.8f, -6.26f);
 		transform.rotation = Quaternion.Euler(0,90,0);
+
+		GameObject[] ghosts = GameObject.FindGameObjectsWithTag ("Ghost");
+		foreach (GameObject ghost in ghosts) {
+			if (ghost.name.Equals ("Blinky(Clone)")) {
+				ghost.GetComponent<Transform>()
+					.position = new Vector3(-1.82f, 0.8f, 3.44f);
+			} else if (ghost.name.Equals ("Pinky(Clone)")) {
+				ghost.GetComponent<Transform>()
+					.position = new Vector3(-0.22f, 0.8f, 2.44f);
+			} else if (ghost.name.Equals ("Inky(Clone)")) {
+				ghost.GetComponent<Transform>()
+					.position = new Vector3(0.88f, 0.8f, 3.44f);
+			} else if (ghost.name.Equals ("Clyde(Clone)")) {
+				ghost.GetComponent<Transform>()
+					.position = new Vector3(2.48f, 0.8f, 2.44f);
+			}
+		}
+		/*
 		GameObject.Find ("Blinky").GetComponent<Transform>()
 			.position = new Vector3(-1.82f, 0.8f, 3.44f);
 		GameObject.Find ("Pinky").GetComponent<Transform>()
@@ -245,7 +263,7 @@ public class OVRPlayerController : MonoBehaviour
 		GameObject.Find ("Inky").GetComponent<Transform>()
 			.position = new Vector3(0.88f, 0.8f, 3.44f);
 		GameObject.Find ("Clyde").GetComponent<Transform>()
-			.position = new Vector3(2.48f, 0.8f, 2.44f);
+			.position = new Vector3(2.48f, 0.8f, 2.44f);*/
 	}
 
 	void updateDisplayText() {
