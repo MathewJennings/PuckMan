@@ -15,9 +15,9 @@ public class HUD : VRGUI {
 		GUIStyle style = new GUIStyle(GUI.skin.label);
 		style.fontSize = 30;
 		GUI.contentColor = Color.white;
-		GUI.Label (new Rect (100, 50, 800, 100), "Score: " + score, style); 
-		GUI.Label (new Rect (300, 50, 800, 100), "Remaining Pellets: " + remainingPellets, style); 
-		GUI.Label (new Rect (100, 75, 800, 100), "Lives: " + remainingLives, style);
+		GUI.Label (new Rect (200, 200, 800, 100), "Score: " + score, style); 
+		GUI.Label (new Rect (400, 200, 800, 100), "Remaining Pellets: " + remainingPellets, style); 
+		GUI.Label (new Rect (200, 225, 800, 100), "Lives: " + remainingLives, style);
 	}
 
 	public void setScore(string score) {
