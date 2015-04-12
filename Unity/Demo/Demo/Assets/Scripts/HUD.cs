@@ -11,7 +11,7 @@ public class HUD : VRGUI {
 	// Use this for initialization
 	public override void OnVRGUI()
 	{
-		remainingPellets = GameObject.Find ("OVRPlayerController").GetComponent<OVRPlayerController> ().pelletsRemaining.ToString();
+		//remainingPellets = GameObject.Find ("OVRPlayerController").GetComponent<OVRPlayerController> ().pelletsRemaining.ToString();
 		GUIStyle style = new GUIStyle(GUI.skin.label);
 		style.fontSize = 30;
 		GUI.contentColor = Color.white;

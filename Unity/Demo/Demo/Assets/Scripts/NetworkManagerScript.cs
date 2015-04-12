@@ -60,11 +60,13 @@ public class NetworkManagerScript : MonoBehaviour {
 	
 	void OnConnectedToServer()
 	{
-		Debug.Log("Server Joined");
+		yield return new WaitForSeconds(1);
+		GameObject.Find ("OVRPlayerController/OVRCameraRig").SetActive (false);
 	}
 	
 	private void SpawnPlayer()
 	{
 		Network.Instantiate(pacman, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+
 	}
 }
