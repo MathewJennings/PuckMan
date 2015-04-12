@@ -153,63 +153,66 @@ public class OVRPlayerController : MonoBehaviour
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.tag == "Teleporter") {
-			if (transform.localPosition.x < -13) {
-				transform.Translate (Vector3.right * 26, Space.World);
-			} else {
-				transform.Translate (Vector3.left * 26, Space.World);
-			}
-		} else if (other.gameObject.tag == "Pellet") {
-			GetComponent<AudioSource> ().PlayOneShot (waka);
-			other.gameObject.SetActive (false);
-			score += 100;
-			pelletsRemaining--;
-			updateDisplayText ();
-		} else if (other.gameObject.tag == "Power Pellet") {
-			GetComponent<AudioSource>().PlayOneShot(waka);
-			other.gameObject.SetActive(false);
-			score += 500;
-			tStamp = timer;
-			pelletsRemaining--;
-			updateDisplayText ();
-			isSuper = true;
-		} else if (other.gameObject.tag == "Cherry") {
-			other.gameObject.SetActive (false);
-			GetComponent<AudioSource> ().PlayOneShot (cherry);
-			score += 1000;
-			updateDisplayText ();
-		} else if (other.gameObject.tag == "Ghost") {
-			if(isSuper) {
-				other.gameObject.SetActive (false);
-				superKills++;
-				if(superKills == 1) {
-					score += 2000;
-				} else if (superKills == 2) {
-					score += 4000;
-				} else if (superKills == 3) {
-					score += 8000;
+		NetworkView networkView = GetComponent<NetworkView>();
+		if (networkView.isMine) {
+			if (other.gameObject.tag == "Teleporter") {
+				if (transform.localPosition.x < -13) {
+					transform.Translate (Vector3.right * 26, Space.World);
 				} else {
-					score += 16000;
+					transform.Translate (Vector3.left * 26, Space.World);
 				}
-			} else {
-				lives--;
-				resetPositions ();
-				if (lives == 0) {
-					// TODO: print out game over message. Reset to beginning state
-					score = 0;
-					lives = 3;
-					resetPositions ();
-					//reset all pellets
-					pelletsRemaining = totalNumberPellets;
-					foreach (Transform child in GameObject.Find ("Pellets").transform) {
-						child.gameObject.SetActive(true);
+			} else if (other.gameObject.tag == "Pellet") {
+				GetComponent<AudioSource> ().PlayOneShot (waka);
+				other.gameObject.SetActive (false);
+				score += 100;
+				pelletsRemaining--;
+				updateDisplayText ();
+			} else if (other.gameObject.tag == "Power Pellet") {
+				GetComponent<AudioSource> ().PlayOneShot (waka);
+				other.gameObject.SetActive (false);
+				score += 500;
+				tStamp = timer;
+				pelletsRemaining--;
+				updateDisplayText ();
+				isSuper = true;
+			} else if (other.gameObject.tag == "Cherry") {
+				other.gameObject.SetActive (false);
+				GetComponent<AudioSource> ().PlayOneShot (cherry);
+				score += 1000;
+				updateDisplayText ();
+			} else if (other.gameObject.tag == "Ghost") {
+				if (isSuper) {
+					other.gameObject.SetActive (false);
+					superKills++;
+					if (superKills == 1) {
+						score += 2000;
+					} else if (superKills == 2) {
+						score += 4000;
+					} else if (superKills == 3) {
+						score += 8000;
+					} else {
+						score += 16000;
 					}
-					foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
-						child.gameObject.SetActive(true);
-					}			
+				} else {
+					lives--;
+					resetPositions ();
+					if (lives == 0) {
+						// TODO: print out game over message. Reset to beginning state
+						score = 0;
+						lives = 3;
+						resetPositions ();
+						//reset all pellets
+						pelletsRemaining = totalNumberPellets;
+						foreach (Transform child in GameObject.Find ("Pellets").transform) {
+							child.gameObject.SetActive (true);
+						}
+						foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
+							child.gameObject.SetActive (true);
+						}			
+					}
 				}
+				updateDisplayText ();
 			}
-			updateDisplayText ();
 		}
 	}
 
