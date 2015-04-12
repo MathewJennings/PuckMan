@@ -60,8 +60,12 @@ public class NetworkManagerScript : MonoBehaviour {
 	
 	void OnConnectedToServer()
 	{
-		yield return new WaitForSeconds(1);
+		DoTheDance ();
 		GameObject.Find ("OVRPlayerController/OVRCameraRig").SetActive (false);
+	}
+
+	public IEnumerator DoTheDance() {
+		yield return new WaitForSeconds(1); // waits 1 seconds
 	}
 	
 	private void SpawnPlayer()
