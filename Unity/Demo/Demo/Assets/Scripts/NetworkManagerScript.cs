@@ -61,7 +61,9 @@ public class NetworkManagerScript : MonoBehaviour {
 	void OnConnectedToServer()
 	{
 		DoTheDance ();
-		GameObject.Find ("OVRPlayerController/OVRCameraRig").SetActive (false);
+		GameObject playerCam = GameObject.FindWithTag ("Pac Cam");
+		playerCam.SetActive (false);
+		//GameObject.Find ("OVRPlayerController/OVRCameraRig").SetActive (false);
 	}
 
 	public IEnumerator DoTheDance() {
