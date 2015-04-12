@@ -8,6 +8,7 @@ public var inky: Transform;
 public var clyde: Transform;
 public var blinky: Transform;
 public var pinky: Transform;
+public var cube: GameObject;
 
 function startServer() {
 	Network.InitializeServer(2, 25001, !Network.HavePublicAddress);
@@ -49,6 +50,7 @@ function OnPlayerConnected(player: NetworkPlayer) {
 		Network.Instantiate(clyde, new Vector3(2.48, 0.8, 2.44), Quaternion.identity, 0);
 		Network.Instantiate(blinky, new Vector3(-1.82, 0.8, 3.44), Quaternion.identity, 0);
 		Network.Instantiate(pinky, new Vector3(-0.22, 0.8, 2.44), Quaternion.identity, 0);
+		Network.Instantiate(cube, new Vector3(-0.22, 1.5, 2.44), Quaternion.identity, 0);
 }
 
 	
