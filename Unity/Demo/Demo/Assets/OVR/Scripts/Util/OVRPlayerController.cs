@@ -105,6 +105,10 @@ public class OVRPlayerController : MonoBehaviour
 	private int tStamp = 0;
 	private bool isSuper = false;
 	private int superKills = 0;
+	private Color blinkyOriginal;
+	private Color clydeOriginal;
+	private Color inkyOriginal;
+	private Color pinkyOriginal;
 	public bool getSuper() {
 		return isSuper;
 	}
@@ -175,6 +179,7 @@ public class OVRPlayerController : MonoBehaviour
 				pelletsRemaining--;
 				updateDisplayText ();
 				isSuper = true;
+				changeGhostsToSuper();
 			} else if (other.gameObject.tag == "Cherry") {
 				other.gameObject.SetActive (false);
 				GetComponent<AudioSource> ().PlayOneShot (cherry);
@@ -229,10 +234,45 @@ public class OVRPlayerController : MonoBehaviour
 
 	void Start() {
 		InvokeRepeating ("IncreaseTimer", 1.0F, 1.0F);
+		GameObject[] ghosts = GameObject.FindGameObjectsWithTag ("Ghost");
+		foreach (GameObject ghost in ghosts) {
+			if (ghost.name.Equals ("Blinky(Clone)")) {
+				blinkyOriginal = ghost.GetComponentInChildren<Renderer>().material.color;
+			} else if (ghost.name.Equals ("Pinky(Clone)")) {
+				pinkyOriginal = ghost.GetComponentInChildren<Renderer>().material.color;
+			} else if (ghost.name.Equals ("Inky(Clone)")) {
+				inkyOriginal = ghost.GetComponentInChildren<Renderer>().material.color;
+			} else if (ghost.name.Equals ("Clyde(Clone)")) {
+				clydeOriginal = ghost.GetComponentInChildren<Renderer>().material.color;
+			}
+		}
 	}
 
 	void IncreaseTimer() {
 		timer++;
+	}
+
+	void colorChange(Renderer rd, Color color) {
+		if (isSuper) {
+			rd.material.color = Color.blue;
+		} else {
+			rd.material.color = color;
+		}
+	}
+
+	void changeGhostsToSuper() {
+		GameObject[] ghosts = GameObject.FindGameObjectsWithTag ("Ghost");
+		foreach (GameObject ghost in ghosts) {
+			if (ghost.name.Equals ("Blinky(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), blinkyOriginal);
+			} else if (ghost.name.Equals ("Pinky(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), pinkyOriginal);
+			} else if (ghost.name.Equals ("Inky(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), inkyOriginal);
+			} else if (ghost.name.Equals ("Clyde(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), clydeOriginal);
+			}
+		}
 	}
 
 	void resetPositions() {
@@ -337,6 +377,10 @@ public class OVRPlayerController : MonoBehaviour
 			MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
 
 		if (timer - tStamp >= 12) {
+			if(isSuper) {
+				isSuper = false;
+				changeGhostsToSuper();
+			}
 			isSuper = false;
 			superKills = 0;
 		}
