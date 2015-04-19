@@ -202,22 +202,55 @@ public class OVRPlayerController : MonoBehaviour
 					lives--;
 					resetPositions ();
 					if (lives == 0) {
-						// TODO: print out game over message. Reset to beginning state
-						score = 0;
-						lives = 3;
-						resetPositions ();
-						//reset all pellets
-						pelletsRemaining = totalNumberPellets;
-						foreach (Transform child in GameObject.Find ("Pellets").transform) {
-							child.gameObject.SetActive (true);
-						}
-						foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
-							child.gameObject.SetActive (true);
-						}			
+						resetGame ();			
 					}
 				}
 				updateDisplayText ();
 			}
+		}
+	}
+
+	void OnControllerColliderHit(ControllerColliderHit hit) {
+		Rigidbody other = hit.collider.attachedRigidbody;
+		if (other == null || other.isKinematic)
+			return;
+		
+		if (other.gameObject.tag == "Ghost") {
+			if (isSuper) {
+				other.gameObject.SetActive (false);
+				superKills++;
+				if (superKills == 1) {
+					score += 2000;
+				} else if (superKills == 2) {
+					score += 4000;
+				} else if (superKills == 3) {
+					score += 8000;
+				} else {
+					score += 16000;
+				}
+			} else {
+				lives--;
+				resetPositions ();
+				if (lives == 0) {
+					resetGame ();			
+				}
+			}
+			updateDisplayText ();
+		}
+	}
+
+	void resetGame() {
+		// TODO: print out game over message. Reset to beginning state
+		score = 0;
+		lives = 3;
+		resetPositions ();
+		//reset all pellets
+		pelletsRemaining = totalNumberPellets;
+		foreach (Transform child in GameObject.Find ("Pellets").transform) {
+			child.gameObject.SetActive (true);
+		}
+		foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
+			child.gameObject.SetActive (true);
 		}
 	}
 
@@ -295,15 +328,6 @@ public class OVRPlayerController : MonoBehaviour
 					.position = new Vector3(2.48f, 0.8f, 2.44f);
 			}
 		}
-		/*
-		GameObject.Find ("Blinky").GetComponent<Transform>()
-			.position = new Vector3(-1.82f, 0.8f, 3.44f);
-		GameObject.Find ("Pinky").GetComponent<Transform>()
-			.position = new Vector3(-0.22f, 0.8f, 2.44f);
-		GameObject.Find ("Inky").GetComponent<Transform>()
-			.position = new Vector3(0.88f, 0.8f, 3.44f);
-		GameObject.Find ("Clyde").GetComponent<Transform>()
-			.position = new Vector3(2.48f, 0.8f, 2.44f);*/
 	}
 
 	void updateDisplayText() {
