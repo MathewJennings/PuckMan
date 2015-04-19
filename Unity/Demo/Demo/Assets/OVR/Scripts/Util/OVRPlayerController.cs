@@ -112,6 +112,7 @@ public class OVRPlayerController : MonoBehaviour
 	public bool getSuper() {
 		return isSuper;
 	}
+	private List<Collider> inactiveGhosts = new List<Collider>();
 	public AudioClip waka;
 	public AudioClip cherry;
 
@@ -188,6 +189,7 @@ public class OVRPlayerController : MonoBehaviour
 			} else if (other.gameObject.tag == "Ghost") {
 				if (isSuper) {
 					other.gameObject.SetActive (false);
+					inactiveGhosts.Add (other);
 					superKills++;
 					if (superKills == 1) {
 						score += 2000;
@@ -211,13 +213,14 @@ public class OVRPlayerController : MonoBehaviour
 	}
 
 	void OnControllerColliderHit(ControllerColliderHit hit) {
-		Rigidbody other = hit.collider.attachedRigidbody;
-		if (other == null || other.isKinematic)
+		Collider other = hit.collider;
+		if (other == null)
 			return;
 		
 		if (other.gameObject.tag == "Ghost") {
 			if (isSuper) {
 				other.gameObject.SetActive (false);
+				inactiveGhosts.Add (other);
 				superKills++;
 				if (superKills == 1) {
 					score += 2000;
@@ -241,8 +244,21 @@ public class OVRPlayerController : MonoBehaviour
 
 	void resetGame() {
 		// TODO: print out game over message. Reset to beginning state
-		score = 0;
-		lives = 3;
+
+		// Reset dead ghosts
+		foreach (Collider ghostCollider in inactiveGhosts) {
+			GameObject ghost = ghostCollider.gameObject;
+			ghost.SetActive (true);
+			if (ghost.name.Equals ("Blinky(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), blinkyOriginal);
+			} else if (ghost.name.Equals ("Pinky(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), pinkyOriginal);
+			} else if (ghost.name.Equals ("Inky(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), inkyOriginal);
+			} else if (ghost.name.Equals ("Clyde(Clone)")) {
+				colorChange(ghost.GetComponentInChildren<Renderer>(), clydeOriginal);
+			}
+		}
 		resetPositions ();
 		//reset all pellets
 		pelletsRemaining = totalNumberPellets;
@@ -252,6 +268,8 @@ public class OVRPlayerController : MonoBehaviour
 		foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
 			child.gameObject.SetActive (true);
 		}
+		score = 0;
+		lives = 3;
 	}
 
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
