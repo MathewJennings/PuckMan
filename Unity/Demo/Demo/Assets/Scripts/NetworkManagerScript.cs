@@ -64,22 +64,22 @@ public class NetworkManagerScript : MonoBehaviour {
 	
 	void OnConnectedToServer()
 	{
-		DoTheDance ();
-		GameObject o1 = GameObject.Find ("OVRPlayerController(Clone)");
-		if (o1 == null) {
-			print ("YOU'RE A BIG o1 NULL BABY");
-		} else {
-			GameObject o2 = GameObject.FindWithTag ("Pac Cam").transform.GetChild(0).gameObject;
-			if (o2 == null) {
-				print ("YOU'RE A BIG o2 NULL BABY");
-			} else {
-				
-			}
-		}
-		Camera cam = GameObject.Find ("OVRPlayerController(Clone)/OVRCameraRig").GetComponent<Camera>();
-		cam.enabled = false;
-		Camera cam2 = GameObject.Find ("Camera").GetComponent<Camera>();
-		cam2.enabled = true;
+		//DoTheDance ();
+		//GameObject o1 = GameObject.Find ("OVRPlayerController(Clone)");
+		//if (o1 == null) {
+		//	print ("YOU'RE A BIG o1 NULL BABY");
+		//} else {
+	//		GameObject o2 = GameObject.FindWithTag ("Pac Cam").transform.GetChild(0).gameObject;
+	//		if (o2 == null) {
+	//			print ("YOU'RE A BIG o2 NULL BABY");
+	//		} else {
+	//			
+	//		}
+	//	}
+	//	Camera cam = GameObject.Find ("OVRPlayerController(Clone)/OVRCameraRig").GetComponent<Camera>();
+	//	cam.enabled = false;
+	//	Camera cam2 = GameObject.Find ("Camera").GetComponent<Camera>();
+	//	cam2.enabled = true;
 
 		//obj.transform.Find ("OVRCameraRig").gameObject.SetActive (false);
 
