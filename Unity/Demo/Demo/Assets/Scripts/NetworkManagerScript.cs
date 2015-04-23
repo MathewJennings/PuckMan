@@ -64,23 +64,23 @@ public class NetworkManagerScript : MonoBehaviour {
 	
 	void OnConnectedToServer()
 	{
-		//DoTheDance ();
-		//GameObject o1 = GameObject.Find ("OVRPlayerController(Clone)");
-		//if (o1 == null) {
-		//	print ("YOU'RE A BIG o1 NULL BABY");
-		//} else {
-	//		GameObject o2 = GameObject.FindWithTag ("Pac Cam").transform.GetChild(0).gameObject;
-	//		if (o2 == null) {
-	//			print ("YOU'RE A BIG o2 NULL BABY");
-	//		} else {
-	//			
-	//		}
-	//	}
-	//	Camera cam = GameObject.Find ("OVRPlayerController(Clone)/OVRCameraRig").GetComponent<Camera>();
-	//	cam.enabled = false;
-	//	Camera cam2 = GameObject.Find ("Camera").GetComponent<Camera>();
-	//	cam2.enabled = true;
-
+		/*DoTheDance ();
+		GameObject o1 = GameObject.Find ("OVRPlayerController(Clone)");
+		if (o1 == null) {
+			print ("YOU'RE A BIG o1 NULL BABY");
+		} else {
+			GameObject o2 = GameObject.FindWithTag ("Pac Cam").transform.GetChild(0).gameObject;
+			if (o2 == null) {
+				print ("YOU'RE A BIG o2 NULL BABY");
+			} else {
+				
+			}
+		}
+		Camera cam = GameObject.Find ("OVRPlayerController(Clone)/OVRCameraRig").GetComponent<Camera>();
+		cam.enabled = false;
+		Camera cam2 = GameObject.Find ("Camera").GetComponent<Camera>();
+		cam2.enabled = true;
+*/
 		//obj.transform.Find ("OVRCameraRig").gameObject.SetActive (false);
 
 		//NetworkView.Find (0).transform.Find ("OVRCameraRig").gameObject.SetActive (false);
@@ -102,6 +102,12 @@ public class NetworkManagerScript : MonoBehaviour {
 		Network.Instantiate(inky, new Vector3(.88f, .8f, 3.44f), q, 0);
 		Network.Instantiate(clyde, new Vector3(2.48f, .8f, 2.44f), q, 0);
 
-		
+		GameObject pacCam = GameObject.Find ("OVRPlayerController(Clone)/OVRCameraRig");
+		GameObject specCam = GameObject.Find ("Camera");
+		/*pacCam.GetComponent<Camera> ().rect = new Rect (0f, 0f, 0f, 0f);
+		pacCam.GetComponent<Camera> ().depth = 2;
+		specCam.GetComponent<Camera> ().rect = new Rect (0f, .5f, .5f, 1f);
+		specCam.GetComponent<Camera> ().depth = 1;*/
+		//pacCam.SetActive (false);
 	}
 }
