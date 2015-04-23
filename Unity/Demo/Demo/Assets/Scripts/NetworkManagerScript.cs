@@ -81,11 +81,14 @@ public class NetworkManagerScript : MonoBehaviour {
 		Camera cam2 = GameObject.Find ("Camera").GetComponent<Camera>();
 		cam2.enabled = true;
 */
-		//obj.transform.Find ("OVRCameraRig").gameObject.SetActive (false);
 
-		//NetworkView.Find (0).transform.Find ("OVRCameraRig").gameObject.SetActive (false);
-		//GameObject.Find ("OVRPlayerController")
-		//	.transform.Find ("OVRCameraRig").gameObject.SetActive (false);
+		GameObject pacCam = GameObject.Find ("OVRPlayerController(Clone)/OVRCameraRig");
+		GameObject specCam = GameObject.Find ("Camera");
+		/*pacCam.GetComponent<Camera> ().rect = new Rect (0f, 0f, 0f, 0f);
+		pacCam.GetComponent<Camera> ().depth = 2;
+		specCam.GetComponent<Camera> ().rect = new Rect (0f, .5f, .5f, 1f);
+		specCam.GetComponent<Camera> ().depth = 1;*/
+		pacCam.SetActive (false);
 	}
 
 	public IEnumerator DoTheDance() {
@@ -102,12 +105,6 @@ public class NetworkManagerScript : MonoBehaviour {
 		Network.Instantiate(inky, new Vector3(.88f, .8f, 3.44f), q, 0);
 		Network.Instantiate(clyde, new Vector3(2.48f, .8f, 2.44f), q, 0);
 
-		GameObject pacCam = GameObject.Find ("OVRPlayerController(Clone)/OVRCameraRig");
-		GameObject specCam = GameObject.Find ("Camera");
-		/*pacCam.GetComponent<Camera> ().rect = new Rect (0f, 0f, 0f, 0f);
-		pacCam.GetComponent<Camera> ().depth = 2;
-		specCam.GetComponent<Camera> ().rect = new Rect (0f, .5f, .5f, 1f);
-		specCam.GetComponent<Camera> ().depth = 1;*/
-		//pacCam.SetActive (false);
+
 	}
 }
