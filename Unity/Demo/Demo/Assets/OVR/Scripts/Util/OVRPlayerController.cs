@@ -274,7 +274,7 @@ public class OVRPlayerController : MonoBehaviour
 		}
 	}
 
-	void resetGame() {
+	[RPC] void resetGame() {
 		// TODO: print out game over message. Reset to beginning state
 
 		// Reset dead ghosts
@@ -302,6 +302,9 @@ public class OVRPlayerController : MonoBehaviour
 		}
 		score = 0;
 		lives = 3;
+		if (networkView.isMine) {
+			networkView.RPC("resetGame", RPCMode.OthersBuffered);
+		}
 	}
 
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
@@ -371,7 +374,7 @@ public class OVRPlayerController : MonoBehaviour
 
 	[RPC] void SetGhostDisabled(int whichGhost)
 	{
-		string ghostName;
+		string ghostName = "";
 		switch (whichGhost) {
 		case 0 :
 			ghostName = "Blinky(Clone)";
