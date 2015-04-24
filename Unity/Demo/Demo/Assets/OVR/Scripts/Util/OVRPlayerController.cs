@@ -371,10 +371,25 @@ public class OVRPlayerController : MonoBehaviour
 
 	[RPC] void SetGhostDisabled(int whichGhost)
 	{
+		string ghostName;
+		switch (whichGhost) {
+		case 0 :
+			ghostName = "Blinky(Clone)";
+			break;
+		case 1 :
+			ghostName = "Pinky(Clone)";
+			break;
+		case 2 :
+			ghostName = "Inky(Clone)";
+			break;
+		case 3 :
+			ghostName = "Clyde(Clone)";
+			break;
+		}
 		GameObject[] ghosts = GameObject.FindGameObjectsWithTag ("Ghost");
-		for (int i = 0; i < 4; i++) {
-			if (i == whichGhost) {
-				ghosts [i].SetActive (false);
+		foreach (GameObject ghost in ghosts) {
+			if (ghost.name.Equals(ghostName)) {
+				ghost.SetActive (false);
 			}
 		}
 		if (networkView.isMine) {
