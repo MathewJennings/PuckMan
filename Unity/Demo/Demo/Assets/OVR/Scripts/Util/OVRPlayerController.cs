@@ -190,7 +190,22 @@ public class OVRPlayerController : MonoBehaviour
 				updateDisplayText ();
 			} else if (other.gameObject.tag == "Ghost") {
 				if (isSuper) {
-					other.gameObject.SetActive (false);
+					//other.gameObject.SetActive (false);
+					string ghostName = other.gameObject.name;
+					switch (name) {
+					case "Blinky(Clone)" :
+						SetGhostDisabled(0);
+						break;
+					case "Pinky(Clone)" :
+						SetGhostDisabled(1);
+						break;
+					case "Inky(Clone)" :
+						SetGhostDisabled(2);
+						break;
+					case "Clyde(Clone)" :
+						SetGhostDisabled(3);
+						break;
+					}
 					inactiveGhosts.Add (other);
 					superKills++;
 					if (superKills == 1) {
@@ -338,6 +353,18 @@ public class OVRPlayerController : MonoBehaviour
 		if (networkView.isMine)
 			networkView.RPC("ChangeGhostColor", RPCMode.OthersBuffered, isSuper);
 	}
+
+	[RPC] void SetGhostDisabled(int whichGhost)
+	{
+		GameObject[] ghosts = GameObject.FindGameObjectsWithTag ("Ghost");
+		for (int i = 0; i < 4; i++) {
+			if (i == whichGhost) {
+				ghosts [i].SetActive (false);
+			}
+		}
+		if (networkView.isMine)
+			networkView.RPC("SetGhostDisabled", RPCMode.OthersBuffered, whichGhost);
+	}	
 
 	void colorChange(Renderer rd, Color color) {
 		if (isSuper) {
