@@ -113,7 +113,7 @@ public class OVRPlayerController : MonoBehaviour
 	public bool getSuper() {
 		return isSuper;
 	}
-	private List<Collider> inactiveGhosts = new List<Collider>();
+	private List<GameObject> inactiveGhosts = new List<GameObject>();
 	public AudioClip waka;
 	public AudioClip cherry;
 
@@ -206,7 +206,6 @@ public class OVRPlayerController : MonoBehaviour
 						SetGhostDisabled(3);
 						break;
 					}
-					inactiveGhosts.Add (other);
 					superKills++;
 					if (superKills == 1) {
 						score += 2000;
@@ -252,7 +251,6 @@ public class OVRPlayerController : MonoBehaviour
 					SetGhostDisabled(3);
 					break;
 				}
-				inactiveGhosts.Add (other);
 				superKills++;
 				if (superKills == 1) {
 					score += 2000;
@@ -278,8 +276,7 @@ public class OVRPlayerController : MonoBehaviour
 		// TODO: print out game over message. Reset to beginning state
 
 		// Reset dead ghosts
-		foreach (Collider ghostCollider in inactiveGhosts) {
-			GameObject ghost = ghostCollider.gameObject;
+		foreach (GameObject ghost in inactiveGhosts) {
 			ghost.SetActive (true);
 			if (ghost.name.Equals ("Blinky(Clone)")) {
 				colorChange(ghost.GetComponentInChildren<Renderer>(), blinkyOriginal);
@@ -392,7 +389,8 @@ public class OVRPlayerController : MonoBehaviour
 		GameObject[] ghosts = GameObject.FindGameObjectsWithTag ("Ghost");
 		foreach (GameObject ghost in ghosts) {
 			if (ghost.name.Equals(ghostName)) {
-				ghost.SetActive (false);
+				ghost.SetActive (false);				
+				inactiveGhosts.Add (ghost);
 			}
 		}
 		if (networkView.isMine) {
