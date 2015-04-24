@@ -30,6 +30,7 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController))]
 public class OVRPlayerController : MonoBehaviour
 {
+	public NetworkView networkView;
 	/// <summary>
 	/// The rate acceleration during movement.
 	/// </summary>
@@ -118,6 +119,8 @@ public class OVRPlayerController : MonoBehaviour
 
 	void Awake()
 	{
+		networkView = GetComponent<NetworkView>();
+
 		Controller = gameObject.GetComponent<CharacterController>();
 
 		if(Controller == null)
@@ -158,7 +161,6 @@ public class OVRPlayerController : MonoBehaviour
 	}
 
 	void OnTriggerEnter(Collider other) {
-		NetworkView networkView = GetComponent<NetworkView>();
 		if (networkView.isMine) {
 			if (other.gameObject.tag == "Teleporter") {
 				if (transform.localPosition.x < -13) {
@@ -180,7 +182,7 @@ public class OVRPlayerController : MonoBehaviour
 				pelletsRemaining--;
 				updateDisplayText ();
 				isSuper = true;
-				changeGhostsToSuper();
+				ChangeGhostColor(isSuper);
 			} else if (other.gameObject.tag == "Cherry") {
 				other.gameObject.SetActive (false);
 				GetComponent<AudioSource> ().PlayOneShot (cherry);
@@ -303,6 +305,40 @@ public class OVRPlayerController : MonoBehaviour
 		timer++;
 	}
 
+	[RPC] void ChangeGhostColor(bool isSuper)
+	{
+		GameObject[] ghosts = GameObject.FindGameObjectsWithTag ("Ghost");
+		foreach (GameObject ghost in ghosts) {
+			if (ghost.name.Equals ("Blinky(Clone)")) {
+				if (isSuper) {
+					ghost.GetComponentInChildren<Renderer>().material.color = Color.blue;
+				} else {
+					ghost.GetComponentInChildren<Renderer>().material.color = blinkyOriginal;
+				}
+			} else if (ghost.name.Equals ("Pinky(Clone)")) {
+				if (isSuper) {
+					ghost.GetComponentInChildren<Renderer>().material.color = Color.blue;
+				} else {
+					ghost.GetComponentInChildren<Renderer>().material.color = pinkyOriginal;
+				}
+			} else if (ghost.name.Equals ("Inky(Clone)")) {
+				if (isSuper) {
+					ghost.GetComponentInChildren<Renderer>().material.color = Color.blue;
+				} else {
+					ghost.GetComponentInChildren<Renderer>().material.color = inkyOriginal;
+				}
+			} else if (ghost.name.Equals ("Clyde(Clone)")) {
+				if (isSuper) {
+					ghost.GetComponentInChildren<Renderer>().material.color = Color.blue;
+				} else {
+					ghost.GetComponentInChildren<Renderer>().material.color = clydeOriginal;
+				}
+			}
+		}		
+		if (networkView.isMine)
+			networkView.RPC("ChangeGhostColor", RPCMode.OthersBuffered, isSuper);
+	}
+
 	void colorChange(Renderer rd, Color color) {
 		if (isSuper) {
 			rd.material.color = Color.blue;
@@ -421,7 +457,7 @@ public class OVRPlayerController : MonoBehaviour
 		if (timer - tStamp >= 12) {
 			if(isSuper) {
 				isSuper = false;
-				changeGhostsToSuper();
+				ChangeGhostColor(isSuper);
 			}
 			isSuper = false;
 			superKills = 0;
