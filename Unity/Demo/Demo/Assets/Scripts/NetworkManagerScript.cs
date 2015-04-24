@@ -88,7 +88,7 @@ public class NetworkManagerScript : MonoBehaviour {
 		pacCam.GetComponent<Camera> ().depth = 2;
 		specCam.GetComponent<Camera> ().rect = new Rect (0f, .5f, .5f, 1f);
 		specCam.GetComponent<Camera> ().depth = 1;*/
-		pacCam.SetActive (false);
+		//pacCam.SetActive (false);
 	}
 
 	public IEnumerator DoTheDance() {

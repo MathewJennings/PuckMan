@@ -362,7 +362,7 @@ public class OVRPlayerController : MonoBehaviour
 				ghosts [i].SetActive (false);
 			}
 		}
-		if (networkView.isMine)
+		//if (networkView.isMine)
 			networkView.RPC("SetGhostDisabled", RPCMode.OthersBuffered, whichGhost);
 	}	
 
