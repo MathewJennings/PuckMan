@@ -171,22 +171,22 @@ public class OVRPlayerController : MonoBehaviour
 			} else if (other.gameObject.tag == "Pellet") {
 				GetComponent<AudioSource> ().PlayOneShot (waka);
 				other.gameObject.SetActive (false);
-				score += 100;
-				pelletsRemaining--;
+				SetScore(score + 100);
+				SetPelletsRemaining(pelletsRemaining - 1);
 				updateDisplayText ();
 			} else if (other.gameObject.tag == "Power Pellet") {
 				GetComponent<AudioSource> ().PlayOneShot (waka);
 				other.gameObject.SetActive (false);
-				score += 500;
+				SetScore (score + 500);
 				tStamp = timer;
-				pelletsRemaining--;
+				SetPelletsRemaining(pelletsRemaining - 1);
 				updateDisplayText ();
 				isSuper = true;
 				ChangeGhostColor(isSuper);
 			} else if (other.gameObject.tag == "Cherry") {
 				other.gameObject.SetActive (false);
 				GetComponent<AudioSource> ().PlayOneShot (cherry);
-				score += 1000;
+				SetScore (score + 1000);
 				updateDisplayText ();
 			} else if (other.gameObject.tag == "Ghost") {
 				if (isSuper) {
@@ -208,16 +208,16 @@ public class OVRPlayerController : MonoBehaviour
 					}
 					superKills++;
 					if (superKills == 1) {
-						score += 2000;
+						SetScore (score + 2000);
 					} else if (superKills == 2) {
-						score += 4000;
+						SetScore (score + 4000);
 					} else if (superKills == 3) {
-						score += 8000;
+						SetScore (score + 8000);
 					} else {
-						score += 16000;
+						SetScore (score + 16000);
 					}
 				} else {
-					lives--;
+					SetLives(lives-1);
 					resetPositions ();
 					if (lives == 0) {
 						resetGame ();			
@@ -253,16 +253,16 @@ public class OVRPlayerController : MonoBehaviour
 				}
 				superKills++;
 				if (superKills == 1) {
-					score += 2000;
+					SetScore (score + 2000);
 				} else if (superKills == 2) {
-					score += 4000;
+					SetScore (score + 4000);
 				} else if (superKills == 3) {
-					score += 8000;
+					SetScore (score + 8000);
 				} else {
-					score += 16000;
+					SetScore (score + 16000);
 				}
 			} else {
-				lives--;
+				SetLives (lives-1);
 				resetPositions ();
 				if (lives == 0) {
 					resetGame ();			
@@ -290,15 +290,15 @@ public class OVRPlayerController : MonoBehaviour
 		}
 		resetPositions ();
 		//reset all pellets
-		pelletsRemaining = totalNumberPellets;
+		SetPelletsRemaining (totalNumberPellets);
 		foreach (Transform child in GameObject.Find ("Pellets").transform) {
 			child.gameObject.SetActive (true);
 		}
 		foreach (Transform child in GameObject.Find ("Power Pellets").transform) {
 			child.gameObject.SetActive (true);
 		}
-		score = 0;
-		lives = 3;
+		SetScore (0);
+		SetLives (3);
 		updateDisplayText ();
 		if (networkView.isMine) {
 			networkView.RPC("resetGame", RPCMode.OthersBuffered);
@@ -334,6 +334,24 @@ public class OVRPlayerController : MonoBehaviour
 
 	void IncreaseTimer() {
 		timer++;
+	}
+	
+	[RPC] void SetScore(int newScore) {
+		score = newScore;
+		if (networkView.isMine)
+			networkView.RPC("SetScore", RPCMode.OthersBuffered, newScore);
+	}
+
+	[RPC] void SetLives(int newLives) {
+		lives = newLives;
+		if (networkView.isMine)
+			networkView.RPC("SetLives", RPCMode.OthersBuffered, newLives);
+	}
+
+	[RPC] void SetPelletsRemaining(int newPellets) {
+		pelletsRemaining = newPellets;
+		if (networkView.isMine)
+			networkView.RPC("SetPelletsRemaining", RPCMode.OthersBuffered, newPellets);
 	}
 
 	[RPC] void ChangeGhostColor(bool isSuper)
