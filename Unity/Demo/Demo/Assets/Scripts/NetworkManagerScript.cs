@@ -24,12 +24,24 @@ public class NetworkManagerScript : MonoBehaviour {
 	void OnServerInitialized()
 	{
 		SpawnPlayer ();
+		//	GameObject.Find ("FakePlayerController").SetActive(false);
 	}
 
 	void OnGUI()
 	{
 		if (!Network.isClient && !Network.isServer)
 		{
+			if (Input.GetKeyDown(KeyCode.S)) {
+				StartServer ();
+			}
+
+			if (Input.GetKeyDown (KeyCode.C)) {
+				RefreshHostList();
+				if (hostList.Length > 0) {
+					JoinServer (hostList[0]);
+				}
+			}
+			/*
 			if (GUI.Button(new Rect(100, 100, 250, 100), "Start Server"))
 				StartServer();
 			if (GUI.Button(new Rect(100, 250, 250, 100), "Refresh Hosts"))
@@ -43,6 +55,7 @@ public class NetworkManagerScript : MonoBehaviour {
 						JoinServer(hostList[i]);
 				}
 			}
+			*/
 		}
 	}
 	
@@ -92,7 +105,7 @@ public class NetworkManagerScript : MonoBehaviour {
 	}
 
 	public IEnumerator DoTheDance() {
-		yield return new WaitForSeconds(3); // waits 1 seconds
+		yield return new WaitForSeconds(3); // waits 3 seconds
 	}
 	
 	private void SpawnPlayer()
