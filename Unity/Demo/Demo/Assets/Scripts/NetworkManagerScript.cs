@@ -26,7 +26,6 @@ public class NetworkManagerScript : MonoBehaviour {
 	void OnServerInitialized()
 	{
 		SpawnPlayer ();
-		//	GameObject.Find ("FakePlayerController").SetActive(false);
 	}
 
 	void OnGUI()
@@ -108,10 +107,8 @@ public class NetworkManagerScript : MonoBehaviour {
 		specCam.GetComponent<Camera> ().rect = new Rect (0f, .5f, .5f, 1f);
 		specCam.GetComponent<Camera> ().depth = 1;*/
 		//pacCam.SetActive (false);
-	}
 
-	public IEnumerator DoTheDance() {
-		yield return new WaitForSeconds(3); // waits 3 seconds
+		GameObject.Find ("FakeOVRCameraRig").SetActive (false);
 	}
 	
 	private void SpawnPlayer()
