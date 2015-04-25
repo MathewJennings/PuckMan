@@ -18,7 +18,7 @@ public class ClientHUDTextManager : MonoBehaviour {
 		if (player != null) {
 			scoreText.text = "SCORE: " + player.GetComponent<OVRPlayerController>().getScore();
 			livesText.text = "LIVES: " + player.GetComponent<OVRPlayerController>().getLives();
-			pelletText.text = "PELLETS REMAINING: " + player.GetComponent<OVRPlayerController>().getPelletsRemaining();
+			pelletText.text = "PELLETS: " + player.GetComponent<OVRPlayerController>().getPelletsRemaining();
 		}
 	}
 }
