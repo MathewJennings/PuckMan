@@ -299,6 +299,7 @@ public class OVRPlayerController : MonoBehaviour
 		}
 		score = 0;
 		lives = 3;
+		updateDisplayText ();
 		if (networkView.isMine) {
 			networkView.RPC("resetGame", RPCMode.OthersBuffered);
 		}
@@ -520,6 +521,10 @@ public class OVRPlayerController : MonoBehaviour
 			}
 			isSuper = false;
 			superKills = 0;
+		}
+
+		if (Input.GetKeyDown (KeyCode.Backspace)) {
+			resetGame ();
 		}
 	}
 
