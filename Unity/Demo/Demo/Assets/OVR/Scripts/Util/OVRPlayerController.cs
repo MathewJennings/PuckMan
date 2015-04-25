@@ -99,9 +99,12 @@ public class OVRPlayerController : MonoBehaviour
 
 	//pacman specific variable
 	private int score = 0;
+	public int getScore() {return score;}
 	private int lives = 3;
+	public int getLives() {return lives;}
 	public int totalNumberPellets = 179;
 	public int pelletsRemaining = 179;
+	public int getPelletsRemaining() {return pelletsRemaining;}
 	private int timer = 0;
 	private int tStamp = 0;
 	private bool isSuper = false;

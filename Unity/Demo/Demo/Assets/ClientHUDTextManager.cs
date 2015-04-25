@@ -14,8 +14,11 @@ public class ClientHUDTextManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		scoreText.text = "TITS1";
-		livesText.text = "TITS2";
-		pelletText.text = "TITS3";
+		GameObject player = GameObject.Find("OVRPlayerController(Clone)");
+		if (player != null) {
+			scoreText.text = "SCORE: " + player.GetComponent<OVRPlayerController>().getScore();
+			livesText.text = "LIVES: " + player.GetComponent<OVRPlayerController>().getLives();
+			pelletText.text = "PELLETS REMAINING: " + player.GetComponent<OVRPlayerController>().getPelletsRemaining();
+		}
 	}
 }
