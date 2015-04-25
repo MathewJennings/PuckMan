@@ -6,13 +6,15 @@ public class NetworkManagerScript : MonoBehaviour {
 	private const string typeName = "Pacman!$!$";
 	private const string gameName = "PacmanRoom1";
 	
-	private HostData[] hostList;
+	private HostData[] hostList = null;
 	
 	public GameObject pacman;
 	public GameObject blinky;
 	public GameObject pinky;
 	public GameObject inky;
 	public GameObject clyde;
+
+	int cPresses = 0;
 	
 	private void StartServer()
 	{
@@ -36,9 +38,13 @@ public class NetworkManagerScript : MonoBehaviour {
 			}
 
 			if (Input.GetKeyDown (KeyCode.C)) {
-				RefreshHostList();
-				if (hostList.Length > 0) {
-					JoinServer (hostList[0]);
+				cPresses++;
+				if (cPresses == 1) {
+					RefreshHostList();
+				} else if (hostList != null) {
+					if (hostList.Length > 0) {
+						JoinServer (hostList[0]);
+					}
 				}
 			}
 			/*
